@@ -1,4 +1,4 @@
-package enums;
+package constants;
 
 /**
  * Created by Alexey Padyukov on 19.06.2017.
@@ -7,12 +7,12 @@ package enums;
 public class DocumentType {
 
     //Приход
-    public static int INCOME = 1;
+    public static final int INCOME = 1;
     //Возврат прихода
-    public static int INCOME_REFUND = 2;
+    public static final int INCOME_REFUND = 2;
     //Расход
-    public static int COST = 3;
+    public static final int COST = 3;
     //Возврат расхода
-    public static int COST_REFUND = 4;
+    public static final int COST_REFUND = 4;
 
 }

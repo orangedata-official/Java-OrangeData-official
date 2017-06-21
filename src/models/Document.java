@@ -1,7 +1,6 @@
 package models;
 
 import com.google.gson.annotations.SerializedName;
-import enums.DocumentType;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
 public class Document {
 
     @SerializedName("Type")
-    private DocumentType type;
+    private int type;
     @SerializedName("Positions")
     private List<Bill> positions;
     @SerializedName("CheckClose")
@@ -19,14 +18,14 @@ public class Document {
     @SerializedName("CustomerContact")
     private String customerContact;
 
-    public Document(DocumentType type, List<Bill> positions, CheckClose checkClose, String customerContact) {
+    public Document(int type, List<Bill> positions, CheckClose checkClose, String customerContact) {
         this.type = type;
         this.positions = positions;
         this.checkClose = checkClose;
         this.customerContact = customerContact;
     }
 
-    public DocumentType getType() {
+    public int getType() {
         return type;
     }
 

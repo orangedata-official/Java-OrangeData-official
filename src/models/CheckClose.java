@@ -1,7 +1,6 @@
 package models;
 
 import com.google.gson.annotations.SerializedName;
-import enums.TaxationSystem;
 
 import java.util.List;
 
@@ -15,9 +14,9 @@ public class CheckClose {
     private List<Payment> payments;
     //Число от 0 до 5
     @SerializedName("TaxationSystem")
-    private TaxationSystem taxationSystem;
+    private int taxationSystem;
 
-    public CheckClose(List<Payment> payments, TaxationSystem taxationSystem) {
+    public CheckClose(List<Payment> payments, int taxationSystem) {
         this.payments = payments;
         this.taxationSystem = taxationSystem;
     }
@@ -26,7 +25,7 @@ public class CheckClose {
         return payments;
     }
 
-    public TaxationSystem getTaxationSystem() {
+    public int getTaxationSystem() {
         return taxationSystem;
     }
 }

@@ -1,33 +1,23 @@
-package enums;
+package constants;
 
 /**
  * Created by Alexey Padyukov on 19.06.2017.
  */
 
 //Число от 0 до 5
-public enum TaxationSystem {
+public class TaxationSystem {
 
     //Общая, ОСН
-    OSN(0),
+    public static final int OSN = 0;
     //Упрощенная доход, УСН доход
-    USN_INCOME(1),
+    public static final int USN_INCOME = 1;
     //Упрощенная доход минус расход, УСН доход - расход
-    USN_INCOME_COSTS(2),
+    public static final int USN_INCOME_COSTS = 2;
     //Единый налог на вмененный доход, ЕНВД
-    ENVD(3),
+    public static final int ENVD = 3;
     //Единый сельскохозяйственный налог, ЕСН
-    ESN(4),
+    public static final int ESN = 4;
     //Патентная система налогообложения, Патент
-    PATENT(5);
-
-    private int code;
-
-    TaxationSystem(int code) {
-        this.code = code;
-    }
-
-    public int getCode() {
-        return code;
-    }
+    public static final int PATENT = 5;
 
 }

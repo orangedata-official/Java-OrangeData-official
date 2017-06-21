@@ -1,26 +1,25 @@
-import enums.DocumentType;
-import enums.PaymentType;
-import enums.Tax;
-import enums.TaxationSystem;
+import constants.DocumentType;
+import constants.PaymentType;
+import constants.Tax;
+import constants.TaxationSystem;
 import models.*;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Main {
 
     private static Bill dummyBill = new Bill(
-            102.12,
-            20.50,
+            1.0,
+            1.0,
             Tax.NONE,
             "Dummy text");
     private static Payment dummyPayment = new Payment(
             PaymentType.CARD_VISA,
-            2.54
+            1.0
     );
     private static CheckClose dummyCheckClose = new CheckClose(
             Collections.singletonList(dummyPayment),

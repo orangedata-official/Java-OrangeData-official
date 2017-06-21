@@ -2,10 +2,10 @@ package models;
 
 import com.google.gson.annotations.SerializedName;
 import com.sun.istack.internal.Nullable;
-import enums.DocumentType;
-import enums.PaymentType;
-import enums.Tax;
-import enums.TaxationSystem;
+import constants.DocumentType;
+import constants.PaymentType;
+import constants.Tax;
+import constants.TaxationSystem;
 import retrofit2.Call;
 import retrofit2.http.*;
 

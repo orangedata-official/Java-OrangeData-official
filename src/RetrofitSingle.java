@@ -1,16 +1,8 @@
-import com.google.gson.annotations.SerializedName;
-import enums.Tax;
 import okhttp3.OkHttpClient;
-import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import javax.annotation.Nullable;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 
 /**
  * Created by Alexey Padyukov on 19.06.2017.
@@ -44,18 +36,6 @@ public class RetrofitSingle {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
-    }
-    private class EnumRetrofitConverterFactory extends Converter.Factory {
-
-
-
-        public Converter<?, Integer> integerConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-            Converter<?, Integer> converter = null;
-            if (type instanceof Class && ((Class<?>)type).isEnum()) {
-                converter = value -> ((Tax) value).getCode();
-            }
-            return converter;
-        }
     }
 
 }

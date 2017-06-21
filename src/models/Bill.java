@@ -1,7 +1,6 @@
 package models;
 
 import com.google.gson.annotations.SerializedName;
-import enums.Tax;
 
 /**
  * Created by Alexey Padyukov on 19.06.2017.
@@ -16,12 +15,12 @@ public class Bill {
     private Double price;
     //Число от 1 до 6
     @SerializedName("Tax")
-    private Tax tax;
+    private int tax;
     //Строка до 128 символов
     @SerializedName("Text")
     private String text;
 
-    public Bill(Double quantity, Double price, Tax tax, String text) {
+    public Bill(Double quantity, Double price, int tax, String text) {
         this.quantity = quantity;
         this.price = price;
         this.tax = tax;
@@ -36,7 +35,7 @@ public class Bill {
         return price;
     }
 
-    public Tax getTax() {
+    public int getTax() {
         return tax;
     }
 
