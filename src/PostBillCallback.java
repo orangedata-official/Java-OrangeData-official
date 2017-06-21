@@ -7,8 +7,8 @@ import javax.annotation.Nullable;
  */
 public interface PostBillCallback {
 
-    void onSuccess();
     void onValidationErrors(@Nullable String[] errors);
+    void onSuccess();
     void onRequestFailure(Throwable throwable);
 
 }

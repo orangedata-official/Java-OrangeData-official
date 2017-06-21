@@ -6,8 +6,6 @@ import models.*;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.*;
 import java.util.Collections;
 
 public class Main {
@@ -34,46 +32,52 @@ public class Main {
 
     public static void main(String[] args) {
         RequestBody dummyRequestBody = new RequestBody(
-                "newId",
+                "newId1",
                 "5001104058",
                 null,
                 dummyDocument
         );
 //        RequestBody requestBody = new RequestBody("45eg9uw23KLL", "5001104058");
-        try {
-            OrangeRequest orangeRequest = new OrangeRequest();
-            orangeRequest.post(dummyRequestBody, new PostBillCallback() {
-                @Override
-                public void onSuccess() {
-                    System.out.println("onSuccess");
-                }
+//        try {
+//            OrangeRequest orangeRequest = new OrangeRequest();
+//            orangeRequest.postDocument(dummyRequestBody, "D:/Java projects/API/private_key.der", new PostBillCallback() {
+//                @Override
+//                public void onSuccess() {
+//                    System.out.println("onSuccess");
+//                }
+//
+//                @Override
+//                public void onValidationErrors(@Nullable String[] errors) {
+//                    if (errors != null) {
+//                        for (String error : errors) {
+//                            System.out.println("onValidationErrors: " + error);
+//                        }
+//                    } else {
+//                        System.out.println("postResponse is null");
+//                    }
+//                }
+//
+//                @Override
+//                public void onRequestFailure(Throwable throwable) {
+//                    System.out.println("onRequestFailure " + throwable.getMessage());
+//                }
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-                @Override
-                public void onValidationErrors(@Nullable String[] errors) {
-                    if (errors != null) {
-                        for (String error : errors) {
-                            System.out.println("onValidationErrors: " + error);
-                        }
-                    } else {
-                        System.out.println("postResponse is null");
-                    }
-                }
+        OrangeRequest orangeRequest = new OrangeRequest();
+        orangeRequest.getDocument("newId1", "5001104058", new GetDocumentCallback() {
+            @Override
+            public void onSuccess(DocumentState documentState) {
+                System.out.println("Success! " + documentState.toString());
+            }
 
-                @Override
-                public void onRequestFailure(Throwable throwable) {
-                    System.out.println("onRequestFailure");
-                }
-            });
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SignatureException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        }
+            @Override
+            public void onRequestFailure(Throwable throwable) {
+                System.out.println(throwable.getMessage());
+            }
+        });
+
     }
 }

@@ -1,7 +1,11 @@
 package models;
 
 import com.google.gson.annotations.SerializedName;
+import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.Path;
 
 import java.util.Date;
 
@@ -94,5 +98,80 @@ public class DocumentState {
     //Строка 10 символов
     @SerializedName("FP")
     private int fp;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getDeviceSN() {
+        return deviceSN;
+    }
+
+    public String getDeviceRN() {
+        return deviceRN;
+    }
+
+    public String getFsNumber() {
+        return fsNumber;
+    }
+
+    public String getOfdName() {
+        return ofdName;
+    }
+
+    public String getOfdWebsite() {
+        return ofdWebsite;
+    }
+
+    public String getOfdInn() {
+        return ofdInn;
+    }
+
+    public String getFnsWebsite() {
+        return fnsWebsite;
+    }
+
+    public String getCompanyINN() {
+        return companyINN;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public int getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public int getShiftNumber() {
+        return shiftNumber;
+    }
+
+    public int getDocumentIndex() {
+        return documentIndex;
+    }
+
+    public Date getProcessedAt() {
+        return processedAt;
+    }
+
+    public Document getContent() {
+        return content;
+    }
+
+    public int getChange() {
+        return change;
+    }
+
+    public int getFp() {
+        return fp;
+    }
+
+
+    public interface RequestService {
+        @Headers("Content-Type: application/json; charset=utf-8")
+        @GET("/api/v2/documents/{inn}/status/{document_id}")
+        Call<DocumentState> getDocumentState(@Path("inn") String inn, @Path("document_id") String documentId);
+    }
 
 }

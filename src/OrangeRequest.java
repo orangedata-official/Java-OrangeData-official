@@ -1,5 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import models.DocumentState;
 import models.PostResponse;
 import models.RequestBody;
 import org.apache.commons.codec.binary.Base64;
@@ -9,28 +10,34 @@ import retrofit2.Response;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Alexey Padyukov on 19.06.2017.
  */
 public class OrangeRequest {
 
-    public void post(RequestBody requestBody, @Nullable PostBillCallback postBillCallback) throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+
+
+    public void postDocument(RequestBody requestBody, String derKeyPath, @Nullable PostBillCallback postBillCallback) throws IOException {
 
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        byte[] textBytes = gson.toJson(requestBody).getBytes("UTF-8");
-        byte[] data = Encryptor.signData(textBytes, Encryptor.getRSAKey());
+        byte[] textBytes = new byte[0];
+        try {
+            textBytes = gson.toJson(requestBody).getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        byte[] data = new byte[0];
+        data = Encryptor.signData(textBytes, derKeyPath);
         String signature = Base64.encodeBase64String(data);
 
         RequestBody.RequestService requestService = RetrofitSingle.getRetrofit().create(RequestBody.RequestService.class);
-        Call<PostResponse> call = requestService.postDocument(signature, requestBody);
-        call.enqueue(new Callback<PostResponse>() {
+        Call<Void> call = requestService.postDocument(signature, requestBody);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 System.out.println("onResponse. Response code: " + response.code());
                 switch (response.code()) {
                     case 201:
@@ -62,7 +69,7 @@ public class OrangeRequest {
             }
 
             @Override
-            public void onFailure(Call<PostResponse> call, Throwable throwable) {
+            public void onFailure(Call<Void> call, Throwable throwable) {
                 System.out.println("onFailure. throwable: " + throwable.getLocalizedMessage());
                 if (postBillCallback != null) {
                     postBillCallback.onRequestFailure(throwable);
@@ -70,5 +77,47 @@ public class OrangeRequest {
             }
         });
     }
+
+    public void getDocument(String documentId, String inn, GetDocumentCallback callback) {
+        DocumentState.RequestService requestService = RetrofitSingle.getRetrofit().create(DocumentState.RequestService.class);
+        Call<DocumentState> call = requestService.getDocumentState(inn, documentId);
+        call.enqueue(new Callback<DocumentState>() {
+            @Override
+            public void onResponse(Call<DocumentState> call, Response<DocumentState> response) {
+                System.out.println("onResponse. Response code: " + response.code());
+                switch (response.code()) {
+                    case 200:
+                        if (callback != null) {
+                            callback.onSuccess(response.body());
+                        }
+                        break;
+                    case 202:
+                        if (callback != null) {
+                            callback.onRequestFailure(new Throwable("Check had been created but has not been proceeded"));
+                        }
+                        break;
+                    case 404:
+                        if (callback != null) {
+                            callback.onRequestFailure(new Throwable("No check found"));
+                        }
+                        break;
+                    case 401:
+                        if (callback != null) {
+                            callback.onRequestFailure(new Throwable("Unauthorized"));
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DocumentState> call, Throwable throwable) {
+                System.out.println("onFailure. throwable: " + throwable.getLocalizedMessage());
+                if (callback != null) {
+                    callback.onRequestFailure(throwable);
+                }
+            }
+        });
+    }
+
 
 }
