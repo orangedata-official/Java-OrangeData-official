@@ -8,7 +8,6 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPrivateKeySpec;
-import java.security.spec.X509EncodedKeySpec;
 
 /**
  * Created by Alexey Padyukov on 19.06.2017.
@@ -66,42 +65,5 @@ public class Encryptor {
         }
         return null;
     }
-//    public static void ggg() {
-//        String certPath = "pkcs8_key";
-//        File pubCertFile = new File(certPath);
-//        BufferedInputStream bis = null;
-//        try {
-//            bis = new BufferedInputStream(new FileInputStream(pubCertFile));
-//        } catch(FileNotFoundException e) {
-//            throw new Exception("Could not locate certfile at '" + certPath + "'", e);
-//        }
-//        CertificateFactory certFact = null;
-//        Certificate cert = null;
-//        try {
-//            certFact = CertificateFactory.getInstance("X.509");
-//            cert = certFact.generateCertificate(bis);
-//        } catch(CertificateException e) {
-//            throw new Exception("Could not instantiate cert", e);
-//        }
-//        bis.close();
-//        ArrayList<Certificate> certs = new ArrayList<Certificate>();
-//        certs.add(cert);
-//
-//        String keyPath = "mykey.pem";
-//        File privKeyFile = new File(keyPath);
-//        try {
-//            bis = new BufferedInputStream(new FileInputStream(privKeyFile));
-//        } catch(FileNotFoundException e) {
-//            throw new Exception("Could not locate keyfile at '" + keyPath + "'", e);
-//        }
-//        byte[] privKeyBytes = new byte[(int)privKeyFile.length()];
-//        bis.read(privKeyBytes);
-//        bis.close();
-//        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-//        KeySpec ks = new PKCS8EncodedKeySpec(privKeyBytes);
-//        RSAPrivateKey privKey = (RSAPrivateKey) keyFactory.generatePrivate(ks);
-//
-//        samlResponse.sign(Signature.getInstance("SHA1withRSA").toString(), privKey, certs);
-//    }
 
 }

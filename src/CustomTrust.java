@@ -1,22 +1,15 @@
-import okhttp3.Headers;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
-import okio.Buffer;
 
 import javax.net.ssl.*;
 import java.io.*;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateFactory;
-import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * Created by user32 on 21.06.2017.
  */
+
 public final class CustomTrust {
     private OkHttpClient client;
 

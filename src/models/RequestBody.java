@@ -2,14 +2,9 @@ package models;
 
 import com.google.gson.annotations.SerializedName;
 import com.sun.istack.internal.Nullable;
-import constants.DocumentType;
-import constants.PaymentType;
-import constants.Tax;
-import constants.TaxationSystem;
 import retrofit2.Call;
 import retrofit2.http.*;
 
-import java.util.ArrayList;
 
 /**
  * Created by Alexey Padyukov on 19.06.2017.
@@ -29,12 +24,13 @@ public class RequestBody {
     @SerializedName("Content")
     private Document content;
 
-    public RequestBody(String id, String inn) {
+    public RequestBody(String id, String inn, Document content) {
         this.id = id;
         this.inn = inn;
+        this.content = content;
     }
 
-    public RequestBody(String id, String inn, String group, Document content) {
+    public RequestBody(String id, String inn, @Nullable String group, Document content) {
         this.id = id;
         this.inn = inn;
         this.group = group;
