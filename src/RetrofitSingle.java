@@ -1,8 +1,9 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.sun.istack.internal.Nullable;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import javax.annotation.Nullable;
 
 /**
  * Created by Alexey Padyukov on 19.06.2017.
@@ -29,11 +30,13 @@ public class RetrofitSingle {
     }
 
     private static void createRetrofit() {
-
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
         OkHttpClient client = new CustomTrust().getClient();
         retrofit = new Retrofit.Builder()
                 .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
     }

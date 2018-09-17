@@ -67,7 +67,7 @@ public class DocumentState {
     private int documentIndex;
 
     //Время регистрации фискального документа в ФН
-    //Время в виде строки в формате ISO8601
+    //Время в виде строки в формате yyyy-MM-dd'T'HH:mm:ss
     private Date processedAt;
 
     //Содержимое документа

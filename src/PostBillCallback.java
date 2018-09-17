@@ -1,5 +1,4 @@
-
-import javax.annotation.Nullable;
+import com.sun.istack.internal.Nullable;
 
 /**
  * Created by Alexey Padyukov on 19.06.2017.
