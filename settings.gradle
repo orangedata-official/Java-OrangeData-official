@@ -1,0 +1,4 @@
+rootProject.name = 'Java-OrangeData-official'
+include 'example'
+include 'orangelib'
+
