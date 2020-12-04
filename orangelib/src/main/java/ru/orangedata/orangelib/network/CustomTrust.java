@@ -11,10 +11,6 @@ import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 
-/**
- * Created by user32 on 21.06.2017.
- */
-
 public final class CustomTrust {
     private OkHttpClient client;
 
@@ -27,7 +23,7 @@ public final class CustomTrust {
 
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
 
-            keyStore.load(new FileInputStream(Paths.get(".")+"\\testKeys\\client.pfx"), "1234".toCharArray());
+            keyStore.load(new FileInputStream(Paths.get(".") + "\\testKeys\\client.pfx"), "1234".toCharArray());
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
             keyManagerFactory.init(keyStore, "1234".toCharArray());
 

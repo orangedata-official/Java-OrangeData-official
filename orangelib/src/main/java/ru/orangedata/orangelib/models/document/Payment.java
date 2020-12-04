@@ -3,23 +3,20 @@ package ru.orangedata.orangelib.models.document;
 import com.google.gson.annotations.SerializedName;
 import ru.orangedata.orangelib.models.Validator;
 
-
-/**
- * Created by Alexey Padyukov on 19.06.2017.
- */
 public class Payment extends Validator {
 
     /**
-     * “ип оплаты
-     * „исло от 1 до 16. ѕараметр об¤зательный.
-     * @see ru.orangedata.orangelib.constants.PaymentType
+     * Тип оплаты
+     * Число от 1 до 16. ѕараметр обязательный.
+     *
+     * @see ru.orangedata.orangelib.models.constants.PaymentType
      */
     @SerializedName("Type")
     private int type;
 
     /**
-     * —умма оплаты
-     * ƒес¤тичное число с точностью до 2 символов после точки*. ѕараметр об¤зательный.
+     * Сумма оплаты
+     * Десятичное число с точностью до 2 символов после точки. Параметр обязательный.
      */
     @SerializedName("Amount")
     private Double amount;

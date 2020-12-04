@@ -6,6 +6,10 @@ import java.util.regex.Pattern;
 
 public abstract class Validator {
 
+    protected static String NEW_LINE = "\n";
+    private static String ISO8601 = "^([\\+-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d+(?!:))?)?(\\17[0-5]\\d([\\.,]\\d+)?)?([zZ]|([\\+-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$";
+    private static String ERR = "incorrect field :";
+
     public abstract String validate();
 
     protected String check(String fieldName, String value, int min, int max, boolean nullable) {
@@ -44,7 +48,6 @@ public abstract class Validator {
             }
         }
     }
-
 
     protected String check(String fieldName, List<? extends Validator> value, boolean nullable) {
         if (value == null) {
@@ -131,9 +134,5 @@ public abstract class Validator {
             }
         }
     }
-
-    private static String ISO8601 = "^([\\+-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d+(?!:))?)?(\\17[0-5]\\d([\\.,]\\d+)?)?([zZ]|([\\+-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$";
-    private static String ERR = "incorrect field :";
-    protected static String NEW_LINE = "\n";
 
 }

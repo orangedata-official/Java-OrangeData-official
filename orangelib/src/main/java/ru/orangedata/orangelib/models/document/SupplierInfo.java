@@ -1,10 +1,9 @@
 package ru.orangedata.orangelib.models.document;
 
 import com.google.gson.annotations.SerializedName;
-import javax.annotation.Nullable;
 import ru.orangedata.orangelib.models.Validator;
 
-
+import javax.annotation.Nullable;
 import java.util.List;
 
 

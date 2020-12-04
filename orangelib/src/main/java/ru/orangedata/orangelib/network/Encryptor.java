@@ -16,10 +16,6 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
-/**
- * Created by Alexey Padyukov on 19.06.2017.
- */
-
 public class Encryptor {
 
     public static PrivateKey getRSAKey() throws IOException {

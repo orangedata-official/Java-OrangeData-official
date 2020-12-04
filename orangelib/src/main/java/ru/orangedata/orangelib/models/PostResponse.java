@@ -1,8 +1,5 @@
 package ru.orangedata.orangelib.models;
 
-/**
- * Created by Alexey Padyukov on 19.06.2017.
- */
 public class PostResponse {
 
     private String[] errors;

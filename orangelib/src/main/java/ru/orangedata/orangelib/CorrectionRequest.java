@@ -2,8 +2,6 @@ package ru.orangedata.orangelib;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-
 import okhttp3.ResponseBody;
 import org.apache.commons.codec.binary.Base64;
 import retrofit2.Call;
@@ -13,15 +11,30 @@ import retrofit2.http.*;
 import ru.orangedata.orangelib.models.PostResponse;
 import ru.orangedata.orangelib.models.correction.CorrectionRequestBody;
 import ru.orangedata.orangelib.network.Encryptor;
+import ru.orangedata.orangelib.network.NetworkCodes;
+import ru.orangedata.orangelib.network.NetworkConstants;
 import ru.orangedata.orangelib.network.RetrofitSingle;
+import ru.orangedata.orangelib.network.exception.*;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CorrectionRequest {
 
+    private final RequestService requestService;
+
+    public CorrectionRequest() {
+        requestService = RetrofitSingle.getRetrofit(null).create(RequestService.class);
+    }
+
+    public CorrectionRequest(String url) {
+        requestService = RetrofitSingle.getRetrofit(url).create(RequestService.class);
+    }
+
     public void postCorrection(CorrectionRequestBody requestBody, String derKeyPath, @Nullable PostCallback postCallback) throws IOException {
+        AtomicInteger tryCount = new AtomicInteger(0);
         String validation = requestBody.validate();
         if (!validation.equals("")) {
             throw new IOException("ValidationError: " + validation);
@@ -34,39 +47,60 @@ public class CorrectionRequest {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        byte[] data = new byte[0];
-        data = Encryptor.signData(textBytes, derKeyPath);
+        byte[] data = Encryptor.signData(textBytes, derKeyPath);
         String signature = Base64.encodeBase64String(data);
 
-        RequestService requestService = RetrofitSingle.getRetrofit().create(RequestService.class);
         Call<Void> call = requestService.postCorrection(signature, requestBody);
-        call.enqueue(new Callback<Void>() {
+        Callback<Void> callback = new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 System.out.println("onResponse. Response code: " + response.code());
                 switch (response.code()) {
-                    case 201:
+                    case NetworkCodes.CREATED:
                         if (postCallback != null) {
                             postCallback.onSuccess();
                         }
                         break;
-                    case 401:
+                    case NetworkCodes.UNAUTHORIZED:
                         if (postCallback != null) {
-                            postCallback.onRequestFailure(new Throwable("Wrong certificate"));
+                            postCallback.onRequestFailure(new WrongCertificateException());
                         }
                         break;
-                    case 409:
+                    case NetworkCodes.CONFLICT:
                         if (postCallback != null) {
-                            postCallback.onRequestFailure(new Throwable("Document with id \"" + requestBody.getId() + "\" already exists"));
+                            postCallback.onRequestFailure(new ConflictException(requestBody.getId()));
                         }
                         break;
-                    case 400:
+                    case NetworkCodes.BAD_REQUEST:
                         if (postCallback != null) {
                             try {
                                 PostResponse postResponse = gson.fromJson(response.errorBody().string(), PostResponse.class);
                                 postCallback.onValidationErrors(postResponse.getErrors());
                             } catch (IOException e) {
                                 e.printStackTrace();
+                            }
+                        }
+                        break;
+                    case NetworkCodes.SERVICE_UNAVAILABLE:
+                        if (postCallback != null) {
+                            if (tryCount.get() < NetworkConstants.BUSY_RETRY_COUNT) {
+                                tryCount.incrementAndGet();
+                                try {
+                                    String retryString = response.headers().get("Retry-After");
+                                    if (retryString != null) {
+                                        int retryInt = Integer.parseInt(retryString);
+                                        Thread.sleep(retryInt * 1000L);
+                                        Call<Void> newCall = call.clone();
+                                        newCall.enqueue(this);
+                                    } else {
+                                        postCallback.onRequestFailure(new ServiceUnavailableException("Service Unavailable: wrong Retry-After header"));
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    postCallback.onRequestFailure(new ServiceUnavailableException("Service Unavailable", e));
+                                }
+                            } else {
+                                postCallback.onRequestFailure(new ServiceUnavailableException("Service Unavailable: max retries"));
                             }
                         }
                         break;
@@ -80,39 +114,44 @@ public class CorrectionRequest {
                     postCallback.onRequestFailure(throwable);
                 }
             }
-        });
+        };
+
+        call.enqueue(callback);
     }
 
     public void getCorrection(String documentId, String inn, GetDocumentCallback callback) {
-        RequestService requestService = RetrofitSingle.getRetrofit().create(RequestService.class);
         Call<ResponseBody> call = requestService.getCorrectionState(inn, documentId);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 System.out.println("onResponse. Response code: " + response.code());
                 switch (response.code()) {
-                    case 200:
+                    case NetworkCodes.OK:
                         if (callback != null) {
                             try {
                                 callback.onSuccess(response.body().string());
                             } catch (Exception e) {
-                                callback.onRequestFailure(e);
+                                callback.onRequestFailure(new OrangeException(e));
                             }
                         }
                         break;
-                    case 202:
+                    case NetworkCodes.ACCEPTED:
                         if (callback != null) {
-                            callback.onRequestFailure(new Throwable("Check had been created but has not been proceeded"));
+                            callback.onRequestFailure(new CreatedNotProceedException());
                         }
                         break;
-                    case 404:
+                    case NetworkCodes.UNAUTHORIZED:
                         if (callback != null) {
-                            callback.onRequestFailure(new Throwable("No check found"));
+                            callback.onRequestFailure(new UnauthorizedException());
+                        }
+                    case NetworkCodes.NOT_FOUND:
+                        if (callback != null) {
+                            callback.onRequestFailure(new CheckNotFoundException());
                         }
                         break;
-                    case 401:
+                    case NetworkCodes.DOCUMENT_EXPIRED_BEFORE_PROCESSING:
                         if (callback != null) {
-                            callback.onRequestFailure(new Throwable("Unauthorized"));
+                            callback.onRequestFailure(new DocumentExpiredBeforeProcessingException());
                         }
                         break;
                 }
@@ -122,7 +161,7 @@ public class CorrectionRequest {
             public void onFailure(Call<ResponseBody> call, Throwable throwable) {
                 System.out.println("onFailure. throwable: " + throwable.getLocalizedMessage());
                 if (callback != null) {
-                    callback.onRequestFailure(throwable);
+                    callback.onRequestFailure(new OrangeException(throwable));
                 }
             }
         });

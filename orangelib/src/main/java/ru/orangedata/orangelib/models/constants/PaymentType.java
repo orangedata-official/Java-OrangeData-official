@@ -1,7 +1,7 @@
-package ru.orangedata.orangelib.constants;
+package ru.orangedata.orangelib.models.constants;
 
 /**
- * Created by Alexey Padyukov on 19.06.2017.
+ * Тип платежа
  */
 public class PaymentType {
 
@@ -36,5 +36,5 @@ public class PaymentType {
     //Последующая оплата (Кредит)
     public static final int CREDIT = 15;
     //Иная форма оплаты
-    public static final int OTHER = 16; 
+    public static final int OTHER = 16;
 }

@@ -1,15 +1,11 @@
 package ru.orangedata.orangelib.models.document;
 
 import com.google.gson.annotations.SerializedName;
-import javax.annotation.Nullable;
 import ru.orangedata.orangelib.models.Validator;
 
-
+import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * Created by Alexey Padyukov on 19.06.2017.
- */
 public class Document extends Validator {
 
     /**
@@ -33,7 +29,11 @@ public class Document extends Validator {
     @SerializedName("checkClose")
     private CheckClose checkClose;
 
-    //Строка от 1 до 64 символов, формат +{Ц} или {С}@{C}. Параметр обязательный.
+    /**
+     * Телефон или электронный адрес покупателя, 1008
+     * Строка от 1 до 64 символов, формат +{Ц} или {С}@{C}. Параметр обязательный.
+     */
+
     @SerializedName("customerContact")
     private String customerContact;
 
@@ -286,7 +286,7 @@ public class Document extends Validator {
             List<Bill> positions,
             CheckClose checkClose,
             String customerContact,
-            @Nullable int agentType,
+            @Nullable Integer agentType,
             @Nullable List<String> paymentTransferOperatorPhoneNumbers,
             @Nullable String paymentAgentOperation,
             @Nullable List<String> paymentAgentPhoneNumbers,

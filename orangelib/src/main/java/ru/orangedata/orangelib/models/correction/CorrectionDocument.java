@@ -1,13 +1,10 @@
 package ru.orangedata.orangelib.models.correction;
 
 import com.google.gson.annotations.SerializedName;
-import javax.annotation.Nullable;
 import ru.orangedata.orangelib.models.Validator;
 
+import javax.annotation.Nullable;
 
-/**
- * Created by Azarev Artem on 30.1.2020.
- */
 public class CorrectionDocument extends Validator {
 
     /**
@@ -16,7 +13,7 @@ public class CorrectionDocument extends Validator {
      * 1. По предписанию
      * Число. Параметр обязательный.
      *
-     * @see ru.orangedata.orangelib.constants.CorrectionType
+     * @see ru.orangedata.orangelib.models.constants.CorrectionType
      */
     @SerializedName("correctionType")
     private int correctionType;
@@ -27,7 +24,7 @@ public class CorrectionDocument extends Validator {
      * 3. Расход
      * Число. Параметр обязательный.
      *
-     * @see ru.orangedata.orangelib.constants.DocumentType
+     * @see ru.orangedata.orangelib.models.constants.DocumentType
      */
     @SerializedName("type")
     private int type;
@@ -150,7 +147,8 @@ public class CorrectionDocument extends Validator {
      * 3. Единый налог на вмененный доход
      * 4. Единый сельскохозяйственный налог
      * 5. Патентная система налогообложения
-     * @see ru.orangedata.orangelib.constants.TaxationSystem
+     *
+     * @see ru.orangedata.orangelib.models.constants.TaxationSystem
      */
     @Nullable
     @SerializedName("taxationSystem")
@@ -183,7 +181,27 @@ public class CorrectionDocument extends Validator {
     @SerializedName("settlementPlace")
     private String settlementPlace;
 
-    public CorrectionDocument(int correctionType, int type, String causeDocumentDate, String causeDocumentNumber, Double totalSum, Double cashSum, Double eCashSum, Double prepaymentSum, Double postpaymentSum, Double otherPaymentTypeSum, Double tax1Sum, Double tax2Sum, Double tax3Sum, Double tax4Sum, Double tax5Sum, Double tax6Sum, Integer taxationSystem, String automatNumber, String settlementAddress, String settlementPlace) {
+    public CorrectionDocument(
+            int correctionType,
+            int type,
+            String causeDocumentDate,
+            String causeDocumentNumber,
+            Double totalSum,
+            @Nullable Double cashSum,
+            @Nullable Double eCashSum,
+            @Nullable Double prepaymentSum,
+            @Nullable Double postpaymentSum,
+            @Nullable Double otherPaymentTypeSum,
+            @Nullable Double tax1Sum,
+            @Nullable Double tax2Sum,
+            @Nullable Double tax3Sum,
+            @Nullable Double tax4Sum,
+            @Nullable Double tax5Sum,
+            @Nullable Double tax6Sum,
+            @Nullable Integer taxationSystem,
+            @Nullable String automatNumber,
+            @Nullable String settlementAddress,
+            @Nullable String settlementPlace) {
         this.correctionType = correctionType;
         this.type = type;
         this.causeDocumentDate = causeDocumentDate;
@@ -224,10 +242,10 @@ public class CorrectionDocument extends Validator {
                 check("tax4Sum", tax4Sum, 2, true) +
                 check("tax5Sum", tax5Sum, 2, true) +
                 check("tax6Sum", tax6Sum, 2, true) +
-                check("taxationSystem", taxationSystem, 0,5, true) +
-                check("automatNumber", automatNumber, 1,20, true) +
-                check("settlementAddress", settlementAddress, 1,243, true) +
-                check("settlementPlace", settlementPlace, 1,243, true)
+                check("taxationSystem", taxationSystem, 0, 5, true) +
+                check("automatNumber", automatNumber, 1, 20, true) +
+                check("settlementAddress", settlementAddress, 1, 243, true) +
+                check("settlementPlace", settlementPlace, 1, 243, true)
                 ;
     }
 }
