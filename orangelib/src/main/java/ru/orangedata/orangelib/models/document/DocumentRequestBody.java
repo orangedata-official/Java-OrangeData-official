@@ -1,12 +1,10 @@
 package ru.orangedata.orangelib.models.document;
 
 import com.google.gson.annotations.SerializedName;
-import javax.annotation.Nullable;
 import ru.orangedata.orangelib.models.Validator;
 
-/**
- * Created by Alexey Padyukov on 19.06.2017.
- */
+import javax.annotation.Nullable;
+
 public class DocumentRequestBody extends Validator {
 
     /**
@@ -53,7 +51,7 @@ public class DocumentRequestBody extends Validator {
     @SerializedName("callbackUrl")
     private String callbackUrl;
 
-  public DocumentRequestBody(String id, String inn, Document content, String key, @Nullable String callbackUrl) {
+    public DocumentRequestBody(String id, String inn, Document content, String key, @Nullable String callbackUrl) {
         this.id = id;
         this.inn = inn;
         this.content = content;

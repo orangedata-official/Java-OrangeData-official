@@ -5,35 +5,39 @@ import ru.orangedata.orangelib.CorrectionRequest;
 import ru.orangedata.orangelib.DocumentRequest;
 import ru.orangedata.orangelib.GetDocumentCallback;
 import ru.orangedata.orangelib.PostCallback;
-import ru.orangedata.orangelib.constants.*;
+import ru.orangedata.orangelib.models.constants.*;
 import ru.orangedata.orangelib.models.correction.CorrectionDocument;
 import ru.orangedata.orangelib.models.correction.CorrectionRequestBody;
 import ru.orangedata.orangelib.models.document.*;
+import ru.orangedata.orangelib.network.exception.OrangeException;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Collections;
 
 public class Main {
 
-    private static String INN = "5001104058";
-    private static String DOC_ID = "newId2";
-    private static String DOC_ID2 = "newId3";
-    private static String RSA_PRICATE_KEY_PATH = "..\\testKeys\\private_key.pem";
+    private static final String INN = "5001104058";
+    private static final String DOC_ID = "newId2";
+    private static final String DOC_ID2 = "newId6";
+    private static final String RSA_PRICATE_KEY_PATH = Paths.get(".").toAbsolutePath() + "\\testKeys\\private_key.pem";
+
+    private static final String TEST_ENDPOINT = "https://apip.orangedata.ru:2443";
 
     public static void main(String[] args) {
-        //«акоментированы методы отправки документов, чтобы на загружались лишние документы
+        //Закоментированы методы отправки документов, чтобы на загружались лишние документы
 
-        //postData();
+        //  postData();
         getData();
 
-        // postCorrection();
+        //  postCorrection();
         getCorrection();
     }
 
     private static void postData() {
         try {
-            DocumentRequest orangeRequest = new DocumentRequest();
+            DocumentRequest orangeRequest = new DocumentRequest(TEST_ENDPOINT);
             orangeRequest.postDocument(getDummyDocument(), RSA_PRICATE_KEY_PATH, new PostCallback() {
                 @Override
                 public void onSuccess() {
@@ -63,7 +67,7 @@ public class Main {
 
     private static void getData() {
 
-        DocumentRequest orangeRequest = new DocumentRequest();
+        DocumentRequest orangeRequest = new DocumentRequest(TEST_ENDPOINT);
         orangeRequest.getDocument(DOC_ID, INN, new GetDocumentCallback() {
             @Override
             public void onSuccess(String result) {
@@ -71,8 +75,8 @@ public class Main {
             }
 
             @Override
-            public void onRequestFailure(Throwable throwable) {
-                System.out.println(throwable.getMessage());
+            public void onRequestFailure(OrangeException orangeException) {
+                System.out.println(orangeException.getMessage());
             }
         });
 
@@ -112,7 +116,7 @@ public class Main {
 
     private static void postCorrection() {
         try {
-            CorrectionRequest orangeRequest = new CorrectionRequest();
+            CorrectionRequest orangeRequest = new CorrectionRequest(TEST_ENDPOINT);
             orangeRequest.postCorrection(getDummyCorrection(), RSA_PRICATE_KEY_PATH, new PostCallback() {
                 @Override
                 public void onSuccess() {
@@ -140,8 +144,8 @@ public class Main {
         }
     }
 
-    private static void getCorrection(){
-        CorrectionRequest orangeRequest = new CorrectionRequest();
+    private static void getCorrection() {
+        CorrectionRequest orangeRequest = new CorrectionRequest(TEST_ENDPOINT);
         orangeRequest.getCorrection(DOC_ID2, INN, new GetDocumentCallback() {
             @Override
             public void onSuccess(String result) {
@@ -149,13 +153,13 @@ public class Main {
             }
 
             @Override
-            public void onRequestFailure(Throwable throwable) {
-                System.out.println(throwable.getMessage());
+            public void onRequestFailure(OrangeException orangeException) {
+                System.out.println(orangeException.getMessage());
             }
         });
     }
 
-    private static CorrectionRequestBody getDummyCorrection(){
+    private static CorrectionRequestBody getDummyCorrection() {
         CorrectionDocument dummyDocument = new CorrectionDocument(
                 CorrectionType.INDEPENDENT,
                 DocumentType.INCOME,

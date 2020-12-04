@@ -1,10 +1,8 @@
-package ru.orangedata.orangelib.constants;
+package ru.orangedata.orangelib.models.constants;
 
 /**
- * Created by Alexey Padyukov on 19.06.2017.
+ * Ставка НДС
  */
-
-//Ставка НДС:
 public class Tax {
 
     //ставка НДС 18%

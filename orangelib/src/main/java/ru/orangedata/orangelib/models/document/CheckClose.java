@@ -3,12 +3,8 @@ package ru.orangedata.orangelib.models.document;
 import com.google.gson.annotations.SerializedName;
 import ru.orangedata.orangelib.models.Validator;
 
-
 import java.util.List;
 
-/**
- * Created by Alexey Padyukov on 19.06.2017.
- */
 public class CheckClose extends Validator {
 
     /**
@@ -21,7 +17,8 @@ public class CheckClose extends Validator {
     /**
      * Система налогообложения, 1055
      * Число от 0 до 5
-     * @see ru.orangedata.orangelib.constants.TaxationSystem
+     *
+     * @see ru.orangedata.orangelib.models.constants.TaxationSystem
      */
     @SerializedName("TaxationSystem")
     private int taxationSystem;

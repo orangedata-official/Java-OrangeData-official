@@ -1,13 +1,10 @@
 package ru.orangedata.orangelib.models.document;
 
 import com.google.gson.annotations.SerializedName;
-import javax.annotation.Nullable;
 import ru.orangedata.orangelib.models.Validator;
 
+import javax.annotation.Nullable;
 
-/**
- * Created by Alexey Padyukov on 19.06.2017.
- */
 public class Bill extends Validator {
 
     /**
@@ -27,7 +24,8 @@ public class Bill extends Validator {
     /**
      * Ставка НДС, 1199
      * Число от 1 до 6. Параметр обязательный.
-     * @see constants.Tax
+     *
+     * @see ru.orangedata.orangelib.models.constants.Tax
      */
     @SerializedName("tax")
     private int tax;
@@ -174,12 +172,12 @@ public class Bill extends Validator {
             int tax,
             String text,
             @Nullable Double taxSum,
-            @Nullable int paymentMethodType,
-            @Nullable int paymentSubjectType,
+            @Nullable Integer paymentMethodType,
+            @Nullable Integer paymentSubjectType,
             @Nullable String nomenclatureCode,
             @Nullable SupplierInfo supplierInfo,
             @Nullable String supplierINN,
-            @Nullable int agentType,
+            @Nullable Integer agentType,
             @Nullable AgentInfo agentInfo,
             @Nullable String unitOfMeasurement,
             @Nullable String additionalAttribute,

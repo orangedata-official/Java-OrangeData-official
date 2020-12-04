@@ -1,7 +1,6 @@
 package ru.orangedata.orangelib.models.correction;
 
 import com.google.gson.annotations.SerializedName;
-
 import ru.orangedata.orangelib.models.Validator;
 
 import javax.annotation.Nullable;
@@ -52,7 +51,7 @@ public class CorrectionRequestBody extends Validator {
     @SerializedName("callbackUrl")
     private String callbackUrl;
 
-    public CorrectionRequestBody(String id, String inn, String group, CorrectionDocument content, String key, String callbackUrl) {
+    public CorrectionRequestBody(String id, String inn, String group, CorrectionDocument content, String key, @Nullable String callbackUrl) {
         this.id = id;
         this.inn = inn;
         this.group = group;

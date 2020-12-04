@@ -2,41 +2,30 @@ package ru.orangedata.orangelib.network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import javax.annotation.Nullable;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by Alexey Padyukov on 19.06.2017.
- */
+import javax.annotation.Nullable;
+
 public class RetrofitSingle {
 
-    private static String url = "https://apip.orangedata.ru:2443";
+    private static final String PROD_ENDPOINT = "https://api.orangedata.ru:12003";
 
-    private static Retrofit retrofit;
-
-    public static Retrofit getRetrofit(@Nullable String setUrl) {
-        if (retrofit == null || (url != null && !url.equals(setUrl))) {
-            url = setUrl != null ? setUrl : url;
-            createRetrofit();
+    public static Retrofit getRetrofit(@Nullable String url) {
+        if ((url != null)) {
+            return createRetrofit(url);
+        } else {
+            return createRetrofit(PROD_ENDPOINT);
         }
-        return retrofit;
     }
 
-    public static Retrofit getRetrofit() {
-        if (retrofit == null) {
-            createRetrofit();
-        }
-        return retrofit;
-    }
-
-    private static void createRetrofit() {
+    private static Retrofit createRetrofit(String url) {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                 .create();
         OkHttpClient client = new CustomTrust().getClient();
-        retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)

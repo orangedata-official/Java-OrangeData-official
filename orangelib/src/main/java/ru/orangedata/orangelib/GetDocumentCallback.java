@@ -1,12 +1,11 @@
 package ru.orangedata.orangelib;
 
-/**
- * Created by Alexey Padyukov on 19.06.2017.
- */
+import ru.orangedata.orangelib.network.exception.OrangeException;
+
 public interface GetDocumentCallback {
 
     void onSuccess(String documentState);
 
-    void onRequestFailure(Throwable throwable);
+    void onRequestFailure(OrangeException exception);
 
 }
