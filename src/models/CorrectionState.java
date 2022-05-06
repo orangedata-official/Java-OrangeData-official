@@ -81,6 +81,8 @@ public class CorrectionState {
     //Метаданные запроса 
     public String meta;
 
+    public CorrectionState(){}
+
     public interface RequestService {
         @Headers("Content-Type: application/json; charset=utf-8")
         @GET("/api/v2/corrections/{inn}/status/{document_id}")

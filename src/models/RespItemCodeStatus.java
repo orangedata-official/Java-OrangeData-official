@@ -34,6 +34,8 @@ public class RespItemCodeStatus {
     /// Метаданные запроса
     public String Meta;
 
+    public RespItemCodeStatus(){}
+
     public interface RequestService {
         @Headers("Content-Type: application/json; charset=utf-8")
         @GET("/api/v2/itemcode/{inn}/status/{documentId}")

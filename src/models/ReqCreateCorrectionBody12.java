@@ -49,10 +49,7 @@ public class ReqCreateCorrectionBody12 {
         this.key=key;
         this.callbackUrl=callbackUrl;
         this.meta=meta;
-        if(ignoreItemCodeCheck==null)
-            this.ignoreItemCodeCheck=false;
-        else
-            this.ignoreItemCodeCheck = ignoreItemCodeCheck;
+        this.ignoreItemCodeCheck = ignoreItemCodeCheck;
     }
 
     public interface RequestService {

@@ -22,7 +22,7 @@ public class CorrectionContent {
     ///     Дата документа основания для коррекции
     ///     В данном реквизите время всегда указывать, как 00:00:00
     @SerializedName("CauseDocumentDate")
-    public Date causeDocumentDate;
+    public String causeDocumentDate;
 
     
     ///     Номер документа основания для коррекции
@@ -95,26 +95,26 @@ public class CorrectionContent {
     public Integer taxationSystem;
 
     public CorrectionContent(Integer correctionType,Integer type,
-                             Date causeDocumentDate,String causeDocumentNumber,Double totalSum,
+                             String causeDocumentDate,String causeDocumentNumber,Double totalSum,
                              Double cashSum,Double eCashSum,Double prepaymentSum,Double postpaymentSum,
                              Double otherPaymentTypeSum,Double tax1Sum,Double tax2Sum,Double tax3Sum,
                              Double tax4Sum,Double tax5Sum,Double tax6Sum,Integer taxationSystem){
-        this.correctionType=correctionType;
-        this.type=type;
+        this.correctionType=(correctionType==null)?0:correctionType;
+        this.type=(type==null)?0:type;
         this.causeDocumentDate=causeDocumentDate;
         this.causeDocumentNumber=causeDocumentNumber;
-        this.totalSum=totalSum;
-        this.cashSum=cashSum;
-        this.eCashSum=eCashSum;
-        this.prepaymentSum=prepaymentSum;
-        this.postpaymentSum=postpaymentSum;
-        this.otherPaymentTypeSum=otherPaymentTypeSum;
-        this.tax1Sum=tax1Sum;
-        this.tax2Sum=tax2Sum;
-        this.tax3Sum=tax3Sum;
-        this.tax4Sum=tax4Sum;
-        this.tax5Sum=tax5Sum;
-        this.tax6Sum=tax6Sum;
-        this.taxationSystem=taxationSystem;
+        this.totalSum=(totalSum==null)?0:totalSum;
+        this.cashSum=(cashSum==null)?0:cashSum;
+        this.eCashSum=(eCashSum==null)?0:eCashSum;
+        this.prepaymentSum=(prepaymentSum==null)?0:prepaymentSum;
+        this.postpaymentSum=(postpaymentSum==null)?0:postpaymentSum;
+        this.otherPaymentTypeSum=(otherPaymentTypeSum==null)?0:otherPaymentTypeSum;
+        this.tax1Sum=(tax1Sum==null)?0:tax1Sum;
+        this.tax2Sum=(tax2Sum==null)?0:tax2Sum;
+        this.tax3Sum=(tax3Sum==null)?0:tax3Sum;
+        this.tax4Sum=(tax4Sum==null)?0:tax4Sum;
+        this.tax5Sum=(tax5Sum==null)?0:tax5Sum;
+        this.tax6Sum=(tax6Sum==null)?0:tax6Sum;
+        this.taxationSystem=(taxationSystem==null)?0:taxationSystem;
     }
 }

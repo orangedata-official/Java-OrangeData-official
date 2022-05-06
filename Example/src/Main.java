@@ -4,6 +4,7 @@ import models.*;
 
 import javax.swing.text.Position;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Handler;
 
@@ -140,7 +141,7 @@ public class Main {
         orangeRequest.getCorrectionState("1122334415","7725327863", new GetCorrectionCallback() {
             @Override
             public void onSuccess(CorrectionState documentState) {
-                System.out.println("FFD 1.05 correction status Success! " +  documentState.id);
+                System.out.println("FFD 1.05 correction status Success! Id: " +  documentState.id);
                 createCheck12(orangeRequest);
             }
 
@@ -191,7 +192,7 @@ public class Main {
         orangeRequest.getDocument("1122334512", "7725327863", new GetDocumentCallback() {
             @Override
             public void onSuccess(DocumentState documentState) {
-                System.out.println("FFD 1.2 document status Success! " + documentState.getCompanyName());
+                System.out.println("FFD 1.2 document status Success! Company Name: " + documentState.getCompanyName());
                 createCorrection12(orangeRequest);
             }
 
@@ -242,7 +243,7 @@ public class Main {
         orangeRequest.getCorrectionState12("11223345121","7725327863", new GetCorrectionCallback12() {
             @Override
             public void onSuccess(CorrectionState12 documentState) {
-                System.out.println("FFD 1.2 correction status Success! " +  documentState.id);
+                System.out.println("FFD 1.2 correction status Success! Id: " +  documentState.id);
                 getKKTDeviceState(orangeRequest);
             }
 
@@ -284,7 +285,7 @@ public class Main {
     private static void createItemcodeCheck(OrangeRequest orangeRequest){
         try{
             System.out.println("Start creating ItemCode check");
-            orangeRequest.postItemCodeCheck(new ReqItemCodeCheck("1122334524",
+            orangeRequest.postItemCodeCheck(new ReqItemCodeCheck("1122334526",
                     "7725327863",
                     "Main_2",
                     new ItemCodeContent((byte)1,
@@ -328,7 +329,7 @@ public class Main {
     private static void getItemCodeState(OrangeRequest orangeRequest){
         try{
             System.out.println("Start getting ItemCode status");
-            orangeRequest.getItemCodeState("7725327863", "1122334524", new GetItemCodeStateCallback() {
+            orangeRequest.getItemCodeState("7725327863", "1122334526", new GetItemCodeStateCallback() {
                 @Override
                 public void onSuccess(RespItemCodeStatus documentState) {
                     System.out.println("Get Itemcode status onSuccess. Id: "+documentState.Id+
@@ -384,7 +385,7 @@ public class Main {
     private static RequestBody getDummy12() {
 
         return new RequestBody(
-                "1122334512",
+                "1122334513",
                 "7725327863",
                 "Main_2",
                 new Document(FfdVersionType.Ffd12,
@@ -451,18 +452,18 @@ public class Main {
                             put("name", "Любимая цитата");
                             put( "value", "В здоровом теле здоровый дух, этот лозунг еще не потух!");
                         }},
-                        "Доп атрибут чека",
+                        "Доп атрибут чека",
                         null,
                         null,null,null,
                         null,
                         new HashMap<String,String>(){{
-                            put("name", "Кузнецов Иван Петрович");
+                            put("name", "Кузнецов Иван Петрович");
                             put( "inn", "7725327863");
                             put("birthDate", "15.09.1988");
                             put( "citizenship", "643");
                             put("identityDocumentCode", "01");
                             put( "identityDocumentData", "multipassport");
-                            put( "address", "Басеенная 36");
+                            put( "address", "Басеенная 36");
                         }},
                         "Кассир",
                         null,
@@ -477,17 +478,18 @@ public class Main {
                             put( "value", "industry");
                         }}),
                 "7725327863",
-                "http://call.back/?doc=2","some meta",false);
+                "http://call.back/?doc=2","some meta",false);
     }
     private static ReqCreateCorrectionBody getCorrection() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00'Z'");
         return new ReqCreateCorrectionBody(
-                "1122334415",
+                "1122334416",
                 "7725327863",
                 null,
                 new CorrectionContent(null,
                     DocumentType.INCOME,
-                    new Date(),
-                    "11223345",
+                    sdf.format(new Date()),
+                    "11223344",
                     null,
                     2000d,
                     null,null,null,null,
@@ -497,14 +499,14 @@ public class Main {
     }
     private static ReqCreateCorrectionBody12 getCorrection12() {
         return new ReqCreateCorrectionBody12(
-                "11223345121",
+                "11223345122",
                 "7725327863",
                 "Main_2",
                 new CorrectionContent12(
                         FfdVersionType.Ffd12,
                         DocumentType.INCOME,
                         Collections.singletonList(
-                                new Bill(1.0d,
+                                new Bill(1.000d,
                                         123.45,
                                         Tax.NONE,
                                         "Булка",
@@ -517,17 +519,17 @@ public class Main {
                                         null,
                                         AgentType.Other,
                                         new AgentInfo(Arrays.asList("+79200000001", "+74997870001"),
-                                                "Какая-то операция 1",
+                                                "Какая-то операция 1",
                                                Collections.singletonList("+79200000003"),
                                                 Arrays.asList("+79200000002", "+74997870002"),
-                                                "ООО \"Атлант\"",
-                                                "Воронеж, ул. Недогонная, д. 84",
+                                                "ООО \"Атлант\"",
+                                                "Воронеж, ул. Недогонная, д. 84",
                                                 "7727257386"),
                                         null,
                                         null,
-                                        "Доп. атрибут и все тут",
+                                        "Доп. атрибут и все тут",
                                         "643",
-                                        "АД 11/77 от 01.08.2018",
+                                        "АД 11/77 от 01.08.2018",
                                         23.45,
                                         null,
                                         0.23,
@@ -555,12 +557,12 @@ public class Main {
                         "foo@example.com",
                         CorrectionType.OnPrescription,
                         "2021-08-13T00:00:00",
-                        "1122334512",
+                        "1122334513",
                         new HashMap<String,String>(){{
-                            put("name", "Любимая цитата");
-                            put( "value", "В здоровом теле здоровый дух, этот лозунг еще не потух!");
+                            put("name", "Любимая цитата");
+                            put( "value", "В здоровом теле здоровый дух, этот лозунг еще не потух!");
                         }},
-                        "Доп атрибут чека",
+                        "Доп атрибут чека",
                         null,
                         null,
                         null,
@@ -571,13 +573,13 @@ public class Main {
                         null,null,null,
                         null,null,null,
                         new HashMap<String,String>(){{
-                            put("name", "Кузнецов Иван Петрович");
+                            put("name", "Кузнецов Иван Петрович");
                             put( "inn", "7725327863");
                             put("birthDate", "15.09.1988");
                             put( "citizenship", "643");
                             put("identityDocumentCode", "01");
                             put( "identityDocumentData", "multipassport");
-                            put( "address", "Басеенная 36");
+                            put( "address", "Басеенная 36");
                         }},
                         new OperationalAttribute("2021-08-12T18:36:16",(byte)0,"operational"),
                         new HashMap<String,String>(){{

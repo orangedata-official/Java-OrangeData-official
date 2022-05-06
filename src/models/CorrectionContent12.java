@@ -120,12 +120,12 @@ public class CorrectionContent12 {
                                Double totalSum, Double vat1Sum,Double vat2Sum,Double vat3Sum,
                                Double vat4Sum,Double vat5Sum,Double vat6Sum,Map<String,String> customerInfo,
                                OperationalAttribute operationalAttribute,Map<String,String> industryAttribute){
-        this.ffdVersion=ffdVersion;
-        this.type=type;
+        this.ffdVersion=(ffdVersion==null)?0:ffdVersion;
+        this.type=(type==null)?0:type;
         this.positions=positions;
         this.checkClose=checkClose;
         this.customerContact=customerContact;
-        this.correctionType=correctionType;
+        this.correctionType=(correctionType==null)?0:correctionType;
         this.causeDocumentDate=causeDocumentDate;
         this.causeDocumentNumber=causeDocumentNumber;
         this.additionalUserAttribute=additionalUserAttribute;
@@ -136,13 +136,13 @@ public class CorrectionContent12 {
         this.settlementAddress=settlementAddress;
         this.settlementPlace=settlementPlace;
         this.senderEmail=senderEmail;
-        this.totalSum=totalSum;
-        this.vat1Sum=vat1Sum;
-        this.vat2Sum=vat2Sum;
-        this.vat3Sum=vat3Sum;
-        this.vat4Sum=vat4Sum;
-        this.vat5Sum=vat5Sum;
-        this.vat6Sum=vat6Sum;
+        this.totalSum=(totalSum==null)?0:totalSum;
+        this.vat1Sum=(vat1Sum==null)?0:vat1Sum;
+        this.vat2Sum=(vat2Sum==null)?0:vat2Sum;
+        this.vat3Sum=(vat3Sum==null)?0:vat3Sum;
+        this.vat4Sum=(vat4Sum==null)?0:vat4Sum;
+        this.vat5Sum=(vat5Sum==null)?0:vat5Sum;
+        this.vat6Sum=(vat6Sum==null)?0:vat6Sum;
         this.customerInfo=customerInfo;
         this.operationalAttribute=operationalAttribute;
         this.industryAttribute=industryAttribute;

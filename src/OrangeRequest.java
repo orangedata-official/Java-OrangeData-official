@@ -22,7 +22,7 @@ public class OrangeRequest {
     public void postDocument(RequestBody requestBody, String derKeyPath, @Nullable PostBillCallback postBillCallback) throws IOException {
 
         GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
+        Gson gson = builder.disableHtmlEscaping().create();
         byte[] textBytes = new byte[0];
         try {
             textBytes = gson.toJson(requestBody).getBytes("UTF-8");
@@ -89,7 +89,9 @@ public class OrangeRequest {
         Gson gson = builder.create();
         byte[] textBytes = new byte[0];
         try {
-            textBytes = gson.toJson(requestBody).getBytes("UTF-8");
+
+            String text=gson.toJson(requestBody);
+            textBytes = text.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -150,10 +152,11 @@ public class OrangeRequest {
     public void postCorrection12(ReqCreateCorrectionBody12 requestBody, String keyPath, @Nullable PostBillCallback postBillCallback) throws IOException {
 
         GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
+        Gson gson = builder.disableHtmlEscaping().create();
         byte[] textBytes = new byte[0];
         try {
-            textBytes = gson.toJson(requestBody).getBytes("UTF-8");
+            String text= gson.toJson(requestBody);
+            textBytes = text.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -244,7 +247,7 @@ public class OrangeRequest {
                             callback.onRequestFailure(new Throwable("Unauthorized"));
                         }
                         break;
-                    case 400:
+                    case 400,404:
                         if (callback != null) {
                             callback.onRequestFailure(new Throwable("No check found"));
                         }
@@ -285,7 +288,7 @@ public class OrangeRequest {
                             callback.onRequestFailure(new Throwable("Check had been created but has not been proceeded"));
                         }
                         break;
-                    case 400:
+                    case 400,404:
                         if (callback != null) {
                             callback.onRequestFailure(new Throwable("No check found"));
                         }
@@ -328,7 +331,7 @@ public class OrangeRequest {
                             callback.onRequestFailure(new Throwable("Check had been created but has not been proceeded"));
                         }
                         break;
-                    case 400:
+                    case 400,404:
                         if (callback != null) {
                             callback.onRequestFailure(new Throwable("No check found"));
                         }
@@ -548,7 +551,7 @@ public class OrangeRequest {
                             callback.onRequestFailure(new Throwable("Check had been created but has not been proceeded"));
                         }
                         break;
-                    case 400:
+                    case 400,404:
                         if (callback != null) {
                             callback.onRequestFailure(new Throwable("No check found"));
                         }

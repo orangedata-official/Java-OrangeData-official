@@ -150,6 +150,7 @@ public class DocumentState {
         return fp;
     }
 
+    public DocumentState(){}
 
     public interface RequestService {
         @Headers("Content-Type: application/json; charset=utf-8")
