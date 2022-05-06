@@ -1,6 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitSingle {
 
-    private static String url = "https://46.28.89.45:2443";
+    private static String url = "https://apip.orangedata.ru:2443";
 
     private static Retrofit retrofit;
 

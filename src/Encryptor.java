@@ -1,5 +1,10 @@
 import org.apache.commons.codec.binary.Base64;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.math.BigInteger;
 import java.nio.file.Files;
@@ -52,16 +57,38 @@ public class Encryptor {
     }
 
     public static PrivateKey get(String filename) throws IOException {
+        if(filename.substring(filename.lastIndexOf(".")).equals(".xml")){
+            try {
+                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                Document doc = dBuilder.parse(filename);
+                doc.getDocumentElement().normalize();
 
-        byte[] keyBytes = Files.readAllBytes(Paths.get(filename));
+                NodeList mList = doc.getElementsByTagName("Modulus");
+                String modulusAsString = mList.item(0).getTextContent();
+                NodeList dList = doc.getElementsByTagName("D");
+                String exponentAsString = dList.item(0).getTextContent();
 
-        PKCS8EncodedKeySpec spec =
-                new PKCS8EncodedKeySpec(keyBytes);
-        try {
-            KeyFactory kf = KeyFactory.getInstance("RSA");
-            return kf.generatePrivate(spec);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
+                BigInteger modulus = new BigInteger(1,Base64.decodeBase64(modulusAsString));
+                BigInteger d = new BigInteger(1,Base64.decodeBase64(exponentAsString));
+                RSAPrivateKeySpec spec = new RSAPrivateKeySpec(modulus, d);
+                KeyFactory kf = KeyFactory.getInstance("RSA");
+                return kf.generatePrivate(spec);
+                //return getRSAKey();
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+        } else {
+            byte[] keyBytes = Files.readAllBytes(Paths.get(filename));
+
+            PKCS8EncodedKeySpec spec =
+                    new PKCS8EncodedKeySpec(keyBytes);
+            try {
+                KeyFactory kf = KeyFactory.getInstance("RSA");
+                return kf.generatePrivate(spec);
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }

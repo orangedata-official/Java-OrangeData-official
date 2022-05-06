@@ -21,7 +21,7 @@ public final class CustomTrust {
             SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
 
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
-            keyStore.load(new FileInputStream("D:/Java projects/API/client.pfx"), "1234".toCharArray());
+            keyStore.load(new FileInputStream("C:/Development/Aqsi/OrangeData/files/files_for_test/client.pfx"), "1234".toCharArray());
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
             keyManagerFactory.init(keyStore, "1234".toCharArray());
 
@@ -36,7 +36,7 @@ public final class CustomTrust {
             client = new OkHttpClient.Builder()
                     .sslSocketFactory(sslSocketFactory, trustManager)
                     .hostnameVerifier(hostnameVerifier)
-                    .addInterceptor(logging)
+                    //.addInterceptor(logging)
                     .build();
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
