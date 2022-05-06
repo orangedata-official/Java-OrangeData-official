@@ -1,13 +1,9 @@
-import constants.*;
 import org.jetbrains.annotations.Nullable;
+import constants.*;
 import models.*;
 
-import javax.swing.text.Position;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.Handler;
-
 
 public class Main {
 
@@ -19,7 +15,7 @@ public class Main {
 
         try {
             System.out.println("Start get access check");
-            orangeRequest.getAccessState(new ReqAccessStatus("7725327863", "Main_2", "7725327863"), "C:\\Development\\Aqsi\\OrangeData\\files\\files_for_test\\private_key_test.xml", new PostBillCallback() {
+            orangeRequest.getAccessState(new ReqAccessStatus("7725327863", "Main_2", "7725327863"), "files_for_test/private_key_test.xml", new PostBillCallback() {
                         @Override
                         public void onSuccess() {
                             System.out.println("Access check onSuccess");
@@ -45,7 +41,6 @@ public class Main {
                         }
                     });
 
-
         }catch (Exception ee){
             ee.printStackTrace();
         }
@@ -53,8 +48,8 @@ public class Main {
 
     public static void createCheck(OrangeRequest orangeRequest)  {
         try {
-            System.out.println("FFD 1.05 start creating document");
-            orangeRequest.postDocument(getDummy(), "C:\\Development\\Aqsi\\OrangeData\\files\\files_for_test\\private_key_test.xml", new PostBillCallback() {
+            System.out.println("\nFFD 1.05 start creating document");
+            orangeRequest.postDocument(getDummy(), "files_for_test/private_key_test.xml", new PostBillCallback() {
                 @Override
                 public void onSuccess() {
                     System.out.println("FFD 1.05 create document onSuccess");
@@ -86,26 +81,26 @@ public class Main {
     }
 
     private static void getCheck(OrangeRequest orangeRequest){
-        System.out.println("FFD 1.05 start getting document status");
+        System.out.println("\nFFD 1.05 start getting document status");
         orangeRequest.getDocument("11223346", "7725327863", new GetDocumentCallback() {
             @Override
             public void onSuccess(DocumentState documentState) {
                 System.out.println("FFD 1.05 document status Success! Company INN: " + documentState.getCompanyINN());
-                creteCorrection(orangeRequest);
+                createCorrection(orangeRequest);
             }
 
             @Override
             public void onRequestFailure(Throwable throwable) {
                 System.out.println("FFD 1.05 document status onRequestFailure: " + throwable.getMessage());
-                creteCorrection(orangeRequest);
+                createCorrection(orangeRequest);
             }
         });
     }
 
-    private static void creteCorrection(OrangeRequest orangeRequest){
+    private static void createCorrection(OrangeRequest orangeRequest){
         try{
-            System.out.println("FFD 1.05 start creating correction");
-            orangeRequest.postCorrection(getCorrection(), "C:\\Development\\Aqsi\\OrangeData\\files\\files_for_test\\private_key_test.xml", new PostBillCallback() {
+            System.out.println("\nFFD 1.05 start creating correction");
+            orangeRequest.postCorrection(getCorrection(), "files_for_test/private_key_test.xml", new PostBillCallback() {
                 @Override
                 public void onValidationErrors(@Nullable String[] errors) {
                     if (errors != null) {
@@ -137,7 +132,7 @@ public class Main {
     }
 
     private static void getCorrectionState(OrangeRequest orangeRequest){
-        System.out.println("FFD 1.05 start getting correction status");
+        System.out.println("\nFFD 1.05 start getting correction status");
         orangeRequest.getCorrectionState("1122334415","7725327863", new GetCorrectionCallback() {
             @Override
             public void onSuccess(CorrectionState documentState) {
@@ -155,8 +150,8 @@ public class Main {
 
     private static void createCheck12(OrangeRequest orangeRequest){
         try{
-            System.out.println("FFD 1.2 start creating document");
-            orangeRequest.postDocument(getDummy12(), "C:\\Development\\Aqsi\\OrangeData\\files\\files_for_test\\private_key_test.xml", new PostBillCallback() {
+            System.out.println("\n\nFFD 1.2 start creating document");
+            orangeRequest.postDocument(getDummy12(), "files_for_test/private_key_test.xml", new PostBillCallback() {
                 @Override
                 public void onValidationErrors(@Nullable String[] errors) {
                     if (errors != null) {
@@ -188,7 +183,7 @@ public class Main {
     }
 
     private static void getCheck12(OrangeRequest orangeRequest){
-        System.out.println("FFD 1.2 start getting document status");
+        System.out.println("\nFFD 1.2 start getting document status");
         orangeRequest.getDocument("1122334512", "7725327863", new GetDocumentCallback() {
             @Override
             public void onSuccess(DocumentState documentState) {
@@ -206,8 +201,8 @@ public class Main {
 
     private static void createCorrection12(OrangeRequest orangeRequest){
         try{
-            System.out.println("FFD 1.2 start creating correction");
-            orangeRequest.postCorrection12(getCorrection12(), "C:\\Development\\Aqsi\\OrangeData\\files\\files_for_test\\private_key_test.xml", new PostBillCallback() {
+            System.out.println("\nFFD 1.2 start creating correction");
+            orangeRequest.postCorrection12(getCorrection12(), "files_for_test/private_key_test.xml", new PostBillCallback() {
                 @Override
                 public void onValidationErrors(@Nullable String[] errors) {
                     if (errors != null) {
@@ -239,7 +234,7 @@ public class Main {
     }
 
     private static void getCorrectionState12(OrangeRequest orangeRequest){
-        System.out.println("FFD 1.2 start getting correction status");
+        System.out.println("\nFFD 1.2 start getting correction status");
         orangeRequest.getCorrectionState12("11223345121","7725327863", new GetCorrectionCallback12() {
             @Override
             public void onSuccess(CorrectionState12 documentState) {
@@ -257,7 +252,7 @@ public class Main {
 
     private static void getKKTDeviceState(OrangeRequest orangeRequest){
         try{
-            System.out.println("Start getting KKT Devices Status status");
+            System.out.println("\n\nStart getting KKT Devices Status status");
             orangeRequest.getKKTDeviceState("7725327863", "Main_2", new GetDevicesCallback() {
                 @Override
                 public void onSuccess(RespKKTDevicesStatus documentState) {
@@ -284,7 +279,7 @@ public class Main {
 
     private static void createItemcodeCheck(OrangeRequest orangeRequest){
         try{
-            System.out.println("Start creating ItemCode check");
+            System.out.println("\nStart creating ItemCode check");
             orangeRequest.postItemCodeCheck(new ReqItemCodeCheck("1122334526",
                     "7725327863",
                     "Main_2",
@@ -295,7 +290,7 @@ public class Main {
                             null),
                     "7725327863",
                     null,
-                    null),"C:\\Development\\Aqsi\\OrangeData\\files\\files_for_test\\private_key_test.xml", new PostBillCallback() {
+                    null),"files_for_test/private_key_test.xml", new PostBillCallback() {
                 @Override
                 public void onValidationErrors(@Nullable String[] errors) {
                     if (errors != null) {
@@ -328,7 +323,7 @@ public class Main {
 
     private static void getItemCodeState(OrangeRequest orangeRequest){
         try{
-            System.out.println("Start getting ItemCode status");
+            System.out.println("\nStart getting ItemCode status");
             orangeRequest.getItemCodeState("7725327863", "1122334526", new GetItemCodeStateCallback() {
                 @Override
                 public void onSuccess(RespItemCodeStatus documentState) {
@@ -349,7 +344,7 @@ public class Main {
     private static RequestBody getDummy() {
 
         return new RequestBody(
-                "11223347",
+                "11223348",
                 "7725327863",
                 null,
                 new Document(FfdVersionType.Ffd105,
@@ -385,7 +380,7 @@ public class Main {
     private static RequestBody getDummy12() {
 
         return new RequestBody(
-                "1122334513",
+                "1122334514",
                 "7725327863",
                 "Main_2",
                 new Document(FfdVersionType.Ffd12,
@@ -480,10 +475,11 @@ public class Main {
                 "7725327863",
                 "http://call.back/?doc=2","some meta",false);
     }
+
     private static ReqCreateCorrectionBody getCorrection() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00'Z'");
         return new ReqCreateCorrectionBody(
-                "1122334416",
+                "1122334417",
                 "7725327863",
                 null,
                 new CorrectionContent(null,
@@ -497,9 +493,10 @@ public class Main {
                     ),
                 null,null);
     }
+
     private static ReqCreateCorrectionBody12 getCorrection12() {
         return new ReqCreateCorrectionBody12(
-                "11223345122",
+                "11223345123",
                 "7725327863",
                 "Main_2",
                 new CorrectionContent12(
